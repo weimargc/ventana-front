@@ -10,7 +10,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-verde" aria-label="Offcanvas navbar large">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Consulta censo electoral votaciones {{date.getFullYear()}}</a>
+      <div class="navbar-custom" style="font-size:20px">Consulta para la franja de inscripción de unidades {{date.getFullYear()}} - 2</div>
     </div>
   </nav>
 </div>
@@ -23,8 +23,7 @@
         <h2 class="text-justify">¡Bienvenido a la Consulta de Censo Electoral!</h2>
         <p class="text-justify">
 
-          A partir del momento y hasta el día de las elecciones, podrán consultar en la página si se encuentran habilitados para ser electores y/o presentar
-          ante la Secretaria General al correo <a href="mailto:votaciones@universidadean.edu.co"> <b>votaciones@universidadean.edu.co</b></a> cualquier solicitud relacionada con el censo.
+          A través de este link podrás consultar la franja asignada para la inscripción de las unidades de estudio para el período académico 2023-2. Revisa aquí el paso a paso para realizar el proceso de inscripción <a href="mailto:votaciones@universidadean.edu.co"> <b>votaciones@universidadean.edu.co</b></a> cualquier solicitud relacionada con el censo.
         </p>
         </div>
       </div>
@@ -33,7 +32,7 @@
           <div class="card-body">
             <form [formGroup]="form">
               <h3 class="text-center">Inicia sesión</h3>
-              <div _ngcontent-aql-c122="" class="leyenda2"> Ingresa usuario y contraseña para verificar el estamento en que está habilitado para votar. </div>
+              <div _ngcontent-aql-c122="" class="leyenda2"> Ingresa usuario y contraseña para verificar la franja asignada. </div>
               <div class="mb-3">
                 <label for="exampleInputuser1" class="form-label">Usuario</label>
                 <input type="text" class="form-control" id="exampleInputuser1" formControlName="user"
@@ -55,7 +54,7 @@
               </div>
 
               <div class="modal-footer justify-content-center">
-                <button  type="button" class="btn btn-success" (click)="validarUsuarioVotacion(null)" [disabled]="correctaSolicitudHttp">
+                <button  type="button" class="btn btn-success" (click)="login(null)" [disabled]="correctaSolicitudHttp">
                   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 2px; margin-right: 2px;"
                   *ngIf="this.correctaSolicitudHttp"></span>
                   Consultar</button>
@@ -75,7 +74,7 @@
                 </div>
 
                   <div class="modal-footer justify-content-center">
-                    <button  type="button" class="btn btn-success" (click)="validarUsuarioVotacion(formre)" [disabled]="correctaSolicitudHttp">
+                    <button  type="button" class="btn btn-success" (click)="login(formre)" [disabled]="correctaSolicitudHttp">
                       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 2px; margin-right: 2px;"
                       *ngIf="this.correctaSolicitudHttp"></span>
                       Consultar</button>
@@ -285,7 +284,7 @@
 </div>
 
 <!-- MODAL RESULTADOS DE HABILTADO PARA VOTAR -->
-<ng-template #contentModalConsultaExitosa let-modal let-d="dismiss">
+<ng-template #contentModalInfoVentanaTiempo let-modal let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title" style="font-size: 1.3rem;">Resultado</h4>
     <!-- <a class="close click" aria-label="Close" (click)="d('Cross click')">
@@ -294,7 +293,8 @@
   </div>
 
   <div class="modal-body">
-    <h6 class="text-center"><b>{{listaEstamentos[0].nombres}} {{listaEstamentos[0].apellidos}}</b> habilitado(a) para votar en {{date.getFullYear()}}</h6>
+    <h6 class="text-center"><b>{{listaVentanasTiempo[0].primer_nombre}} {{listaVentanasTiempo[0].primer_apellido}}</b></h6>
+    <h6 class="text-center"><b>Ventana de tiempo</b></h6>
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -303,17 +303,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of listaEstamentos;let i=index">
+        <tr *ngFor="let item of listaVentanasTiempo;let i=index">
           <td>{{i+1}}</td>
           <td>
-            <b>Estamento:</b> {{item.nombre_estamento}}.
+            <b>Programa:</b> {{item.programa}}.
             <!-- <ng-container *ngIf="item.codigo_estamento.includes('CCF')">
               <br>
               <b>Elector:</b> {{item.tipo_usuario === 'ES' ? 'Estudiante': 'Docente'}}.
             </ng-container> -->
-            <ng-container *ngIf="item.codigo_estamento.includes('COAC')">
+            <ng-container>
               <br>
-              <b>Facultad:</b> {{item.nombre_facultad ? (item.nombre_facultad | titlecase) : ''}}.
+              <b>Horario:</b> {{item.descrip_ventana_tiempo}}.
             </ng-container>
 
           </td>
@@ -328,221 +328,6 @@
 </ng-template>
 
 
-<!-- MODAL RECUPERAR CONTRASEÑA -->
-<ng-template #modalRecuperaCredenciales let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Recuperar contraseña</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');cerrarModal();">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <!-- <div *ngIf="mensajeErrorModalCredenciales" class="alert alert-danger" role="alert">
-      <button type="button" class="close close-alert" aria-label="Close" (click)="cerrarAlert();">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="alert-heading">Algo falló!</h4>
-      <p *ngIf="intentoPreguntasReto<=2" class="">{{mensajeErrorModalCredenciales}}</p>
-      <p *ngIf="intentoPreguntasReto==3" class="">{{mensajeErrorModalCredenciales}} <b><a href="https://universidadean.edu.co/mesa-de-servicios" style="color:#3BAC53" target="_blank">https://universidadean.edu.co/mesa-de-servicios</a></b> y radica tu solicitud de soporte.</p>
-      <hr>
-    </div> -->
-
-    <div *ngIf="mensajeErrorModalCredenciales" class="alert alert-danger alert-dismissible fade show" role="alert">
-      <strong>Algo falló!</strong>
-      <p *ngIf="intentoPreguntasReto<=2" class="">{{mensajeErrorModalCredenciales}}</p>
-      <p *ngIf="intentoPreguntasReto==3" class="">{{mensajeErrorModalCredenciales}} <b><a href="https://universidadean.edu.co/mesa-de-servicios" style="color:#3BAC53" target="_blank">https://universidadean.edu.co/mesa-de-servicios</a></b> y radica tu solicitud de soporte.</p>
-      <hr>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="cerrarAlert();"></button>
-    </div>
-
-    <div *ngIf="esNotificaado" class="alert alert-success" role="alert">
-      <h4 class="alert-heading">Éxito!</h4>
-      <p class="">Hemos enviado un mensaje al correo <b class="" style="word-wrap: break-word;">{{this.formularioCorreoNumero.value.correo}}</b> con la información de acceso.</p>
-      <hr>
-    </div>
-
-   <ng-container *ngIf="!continuarPreguntasReto && !esPreguntaRetoValido">
-    <div class="alert alert-info text-center" role="alert">
-      <b>Indica tu tipo y número de documento</b>
-    </div>
-    <form  autocomplete="off" [formGroup]="formularioRecuperaCredenciales">
-      <div class="form-group mt-4">
-        <label for="tipo_documento">  <b>Tipo de documento <span style="color: red;">*</span> </b></label>
-        <ng-select class="fontsize-combos-select" formControlName="tipo_documento" [clearable]="false" [searchable]="true"
-        notFoundText="No se encontró resultados"  [ngClass]="{ 'form-control-border-invalid':tipo_documentoNoValido}">
-         <ng-option value="" selected disabled> Seleccionar </ng-option>
-         <ng-option value="CC"> CÉDULA DE CIUDADANÍA </ng-option>
-         <ng-option value="TI"> TARJETA DE IDENTIDAD </ng-option>
-         <ng-option value="CE"> CÉDULA DE EXTRANJERÍA </ng-option>
-         <ng-option value="PA"> PASAPORTE </ng-option>
-         <ng-option *ngFor="let tipoDoc of tiposDocumento" [value]="tipoDoc.codigo" class="fontsize-combos-select">{{tipoDoc.descripcion}}</ng-option>
-      </ng-select>
-       <small *ngIf="tipo_documentoNoValido" style="color:red">
-         Debe seleccionar un tipo de documento
-       </small>
-      </div>
-      <div class="form-group mt-4">
-        <label for="documento"><b>Número de documento <span style="color: red;">*</span> </b></label>
-        <input type="text" class="form-control" placeholder="Número documento" id="documento"
-        formControlName="documento" [class.is-invalid]="documentoNoValido" appUppercase>
-      <small *ngIf="documentoNoValido" style="color: red;">
-        Número de documento requerido o inválido
-      </small>
-      </div>
-    </form>
-
-<div class="container-fluid mt-4">
-  <form #form="ngForm">
-    <div class="row mt-3">
-      <div class="col-12 mb-3">
-        <re-captcha id="recaptcha" name="recaptcha" class="recaptcha-cls" #recaptcha="ngModel" [(ngModel)]="tokenRecaptchaV2" required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
-        <div *ngIf="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)" class="invalid-feedback">
-          <div *ngIf="recaptcha.errors?.['required']"  style="color: red;">El campo es requerido.</div>
-        </div>
-      </div>
-    </div>
-
-      <div class="modal-footer justify-content-center">
-        <button *ngIf="!continuarPreguntasReto && !esPreguntaRetoValido" type="button" class="btn btn-success" (click)="validarEstudianteExiste(form)" [disabled]="correctaSolicitudHttp">
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 2px; margin-right: 2px;"
-          *ngIf="this.correctaSolicitudHttp"></span>
-          Continuar</button>
-      </div>
-
-  </form>
-</div>
-  </ng-container>
-
-  <ng-container *ngIf="continuarPreguntasReto && !this.esNotificaado">
-    <div class="alert alert-info text-center" role="alert">
-      <b>Por favor responda las siguientes preguntas</b>
-    </div>
-    <form  autocomplete="off" [formGroup]="formularioPreguntasReto">
-      <div class="form-group mt-4">
-        <label for="programa">  <b>¿De cuál programa académico te graduaste? <span style="color: red;">*</span> </b></label>
-        <ng-select class="fontsize-combos-select" formControlName="programa" [clearable]="false" [searchable]="true"
-        notFoundText="No se encontró resultados"  [ngClass]="{ 'form-control-border-invalid':programaoNoValido}">
-         <ng-option value="" selected disabled> Seleccionar </ng-option>
-         <ng-option *ngFor="let programa of listaPosiblesCarreras" [value]="programa.id" class="fontsize-combos-select">{{programa.nombre}}</ng-option>
-      </ng-select>
-       <small *ngIf="programaoNoValido" style="color:red">
-         Debe seleccionar un programa académico
-       </small>
-      </div>
-      <div class="form-group mt-4">
-        <label for="anio"><b>¿En qué año te graduaste? <span style="color: red;">*</span> </b></label>
-        <ng-select class="fontsize-combos-select" formControlName="anio" [clearable]="false" [searchable]="true"
-        notFoundText="No se encontró resultados"  [ngClass]="{ 'form-control-border-invalid':anioNoValido}">
-         <ng-option value="" selected disabled> Seleccionar </ng-option>
-         <ng-option *ngFor="let anyo of listaPosiblesAnios" [value]="anyo" class="fontsize-combos-select">{{anyo}}</ng-option>
-      </ng-select>
-       <small *ngIf="anioNoValido" style="color:red">
-         Debe seleccionar un año
-       </small>
-      </div>
-      <div class="modal-footer justify-content-center">
-         <button *ngIf="continuarPreguntasReto &&  !this.esNotificaado" type="button" class="btn btn-success" (click)="validaPreguntasReto()" [disabled]="correctaSolicitudHttp">
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 2px; margin-right: 2px;"
-          *ngIf="this.correctaSolicitudHttp"></span>
-          Continuar</button>
-      </div>
-    </form>
-  </ng-container>
-
-  <ng-container *ngIf="esPreguntaRetoValido">
-    <div class="alert alert-info text-center" role="alert">
-      <b>Datos de contacto y clave</b>
-    </div>
-    <form autocomplete="off" [formGroup]="formularioCorreoNumero">
-      <div class="form-group mt-4">
-        <label for="correo">  <b>Correo electrónico personal <span style="color: red;">*</span> </b></label>
-        <input type="text" class="form-control" placeholder="Correo electrónico personal" id="correo"
-        formControlName="correo" [class.is-invalid]="correoNoValido">
-      <small *ngIf="correoNoValido" style="color: red;">
-        Correo electrónico no válido.
-      </small>
-      </div>
-      <div class="form-group mt-4">
-        <label for="telefono"><b>Número telefónico <span style="color: red;">*</span> </b></label>
-        <input type="text" class="form-control" placeholder="Teléfono" id="telefono" formControlName="telefono"
-        [class.is-invalid]="telefonoNoValido">
-      <small *ngIf="telefonoNoValido" style="color: red;">
-        Teléfono inválido, mínimo 6 y máximo 10 dígitos.
-      </small>
-      </div>
-      <div class="form-group mt-4">
-        <label for="clave"><b>Clave correo institucional <span style="color: red;">*</span> </b></label>
-        <input type="password" class="form-control" placeholder="Clave" id="clave" formControlName="clave" minlength="12" maxlength="32"
-        [class.is-invalid]="claveNoValido" >
-      <small *ngIf="claveNoValido" style="color: red;">
-        La clave debe tener mínimo 12 caracteres, al menos una letra mayúscula, una minúscula, un número y un caracter especial [$@$!¡%#*?&"/\()=+-]
-      </small>
-      </div>
-      <div class="form-group mt-4">
-        <label for="claveConfirm"><b>Confirmar clave correo institucional <span style="color: red;">*</span> </b></label>
-        <input type="password" class="form-control" placeholder="Confirmar clave" id="claveConfirm" formControlName="claveConfirm" minlength="12" maxlength="32"
-        [class.is-invalid]="formularioCorreoNumero.get('claveConfirm').errors && claveConfirmNoValido">
-
-        <small *ngIf="formularioCorreoNumero.get('claveConfirm').errors && claveConfirmNoValido" style="color: red;">
-          <div *ngIf="formularioCorreoNumero.get('claveConfirm').errors.required">La confirmación de clave es requerida</div>
-          <div *ngIf="formularioCorreoNumero.get('claveConfirm').errors.pattern">La clave debe tener mínimo 12 caracteres, al menos una letra mayúscula, una minúscula, un número y un caracter especial [$@$!¡%#*?&"/\()=+-]</div>
-          <div *ngIf="formularioCorreoNumero.get('claveConfirm').errors.confirmPasswordValidator">Clave y Confimar clave no coinciden </div>
-        </small>
-      <!-- <small *ngIf="claveConfirmNoValido" style="color: red;">
-        La clave debe tener mínimo 12 caracteres, al menos una letra mayúscula, una minúscula, un número y un caracter especial $@$!¡%#*?&"/\()=+-].
-      </small>
-      <small *ngIf="clavesNoCoinciden" style="color: red;">
-        Clave y Confimar clave no coinciden.
-      </small> -->
-      </div>
-
-      <div class="form-group col-12 col-sm-12">
-        <div class="container-fluid">
-          <div class="form-group row">
-
-            <div class="input-group-sm col-12 text-center custom-control custom-radio mt-3">
-              <input type="radio" id="autorizaDatos1"  formControlName="autorizaDatos" [value]="true" class="custom-control-input">
-              <label  class="custom-control-label" for="autorizaDatos1"></label>
-              <span (click)="openModalAutorizaDatos(modalTratamientoDatos);" style="color:#3BAC53;cursor: pointer;"><b>Autorizo a la Universidad Ean para tratar mis datos personales</b></span>
-              <small *ngIf="autorizaDatosNoValido" style="color:red;display: block;font-size: 13px;text-align: center;">
-                Debe autorizar tratamiento de datos personales
-              </small>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer justify-content-center">
-        <button *ngIf="esPreguntaRetoValido" type="button" class="btn btn-success" (click)="registrarNotificarRecuperacion()" [disabled]="correctaSolicitudHttp">
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 2px; margin-right: 2px;"
-          *ngIf="this.correctaSolicitudHttp"></span>
-          Continuar</button>
-      </div>
-    </form>
-  </ng-container>
-  </div>
-
-</ng-template>
-
-<ng-template #modalTratamientoDatos let-c="close" let-d="dismiss">
-
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" style="font-size: 1.3rem;">Manejo de tus datos personales</h4>
-    <!-- <a class="close click" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </a> -->
-  </div>
-  <div class="modal-body">
-    <p class="txt-tratamiento-datos">De manera voluntaria, explícita, informada e inequívoca, <a href="https://universidadean.edu.co/la-universidad/aviso-datos-personales" target="_blank" title="Autoriza uso de datos personales">autorizo a la Universidad Ean para tratar mis datos personales</a>, de acuerdo con lo dispuesto en los artículos 5, 7 y concordantes del Decreto 1377 de 2013 y las demás disposiciones legales referentes al tema.<br>Para mayor información acerca del manejo de tus datos personales, puedes revisar nuestro
-      <a href="https://universidadean.edu.co/la-universidad/aviso-de-privacidad" target="_blank" title="Aviso de privacidad">Aviso de privacidad</a> y nuestra
-      <a href="https://universidadean.edu.co/sites/default/files/institucion/acuerdos/politica-tratamiento-de-datos-personales.pdf" target="_blank" title="Política de tratamiento de datos personales">Política de tratamiento de datos personales.</a></p>
-  </div>
-  <div class="modal-footer"> <button type="button" class="btn" (click)="d('Cross click')">Cerrar</button></div>
-
-
-</ng-template>
 
 <ng-template #contentModalInfodescargaExito let-modal let-d="dismiss">
   <div class="modal-header">

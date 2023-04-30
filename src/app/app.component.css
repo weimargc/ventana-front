@@ -176,6 +176,13 @@ footer ul li a:hover{
 	}
 }
 
+@media (max-width:900px) {
+  .navbar-custom{
+    text-align: center;
+  }
+}
+
+
 .legales ul {
 	padding: 0;
 }
