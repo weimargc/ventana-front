@@ -1,0 +1,107 @@
+
+
+<div class="alert alert-secondary texto-datos-basicos" role="alert">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 text-center"><span class="btn btn-sm btn-success"
+          (click)="abrirModalcargarArchivoCandidatos(contentLoadFile)">Cargar archivo Ventana de tiempo</span></div>
+      <div class="col-sm-6 text-center align-self-center">
+        <a class="badge badge-info" href="../../../../../../assets/plantilla_graduados.csv" target="_blank"
+          download="Plantilla_candidatos.csv">Descargar plantilla base</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<!-- BANDERA apiCargueLlamada PARA CONTROLAR QUE SE MUESTRE EL MENSAJE DESPUÉS DE LLMAR EL API -->
+<!-- <div class="container" *ngIf="apiCargueLlamada">
+  <div class="row">
+    <div class="col-12" *ngIf="isModalClose && listaDeErroresTemp.length==0">
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Carga exitosa</h4>
+        <p>La carga de graduados fue exitosa</p>
+        <hr>
+        <p class="mb-0">Carga exitosa.</p>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="isModalClose && listaDeErroresTemp.length>0">
+      <div class="card bg-light mb-3">
+        <div class="card-header">Lista de errores generados, corríjelos y reintenta <span class="btn btn-info btn-sm float-right" (click)="descargarErroresCarga()">Descargar errores</span></div>
+        <div class="card-body" style="height: 250px; overflow-y: scroll;">
+          <p *ngFor="let item of listaDeErroresTemp; let i=index;" class="card-text">{{i+1}} - {{item}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- MODAL CARGAR ARCHIVO -->
+<ng-template #contentLoadFile let-modal>
+  <div class="modal-body">
+    <div class="modal-header">
+      <h5 class="modal-title" >Cargue masivo de candidatos a grado</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');cerrarModal()"
+        [disabled]="this.correctaSolicitudHttp">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form autocomplete="off" method="post" enctype="multipart/form-data">
+        <div class="container">
+          <div class="row">
+            <div class="col-12" *ngIf="!listaDeErrores">
+              <div class="input-group mb-3">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="inputGroupFile01" multiple
+                    (change)="onFileChanges($event.target.files)" accept="text/csv, .csv"
+                    [ngClass]="{ 'is-invalid': showErrors }" aria-describedby="inputGroupFileAddon01">
+                  <label class="custom-file-label" for="inputGroupFile01"><span *ngIf="this.nombreArchivo==''">Escoge un
+                      archivo en formato CSV</span><span
+                      *ngIf="this.nombreArchivo!==''">{{this.nombreArchivo}}</span></label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="col-12" *ngIf="listaDeErrores && listaDeErrores.length==0">
+              <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Carga exitosa</h4>
+                <p>La carga de candidatos a grado fue satisfactoria</p>
+                <hr>
+                <p class="mb-0">Carga exitosa.</p>
+              </div>
+            </div>
+            <div class="col-12" *ngIf="listaDeErrores && listaDeErrores.length>0">
+              <div class="card bg-light mb-3">
+                <div class="card-header">Lista de errores generados, corríjelos y reintenta <span class="btn btn-info btn-sm float-right" (click)="descargarErroresCarga()">Descargar errores</span></div>
+                <div class="card-body" style="height: 250px; overflow-y: scroll;">
+                  <p *ngFor="let item of listaDeErrores; let i=index;" class="card-text">{{i+1}} - {{item}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer mt-0">
+      <div class="container container-fluid">
+
+        <div class="row justify-content-center">
+          <div class="col-md-4"></div>
+          <div class="text-center" *ngIf="this.correctaSolicitudHttp">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+              style="margin-bottom: 2px; margin-right: 2px;"></span>
+          </div>
+          <ng-container *ngIf="!this.correctaSolicitudHttp">
+            <div *ngIf="this.fileToUpload" class="col-md-4 btn btn-success click" (click)="import()">Subir archivo
+            </div>
+            <div *ngIf="!this.fileToUpload" class="col-md-4 btn btn-secondary click" (click)="cerrarModal()">Cerrar
+            </div>
+          </ng-container>
+          <div class="col-md-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

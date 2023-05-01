@@ -1,0 +1,63 @@
+#estilo1 {
+    background: #000000;
+}
+
+#logo{
+    width: 80%;
+    height: 80%;
+}
+
+@media only screen and (max-width: 620px) {
+    #usuario {
+      display: none;
+    }
+    #estilo1{
+        padding: 0px;
+    }
+    #logo{
+        width: 220px;
+    }
+    #iconoSesion{
+        font-size: 40px;
+    }      
+}
+
+
+@media only screen and (min-width: 620px) {
+    #iconoSesion{
+        font-size: 60px;
+    } 
+    .menu-responsive{
+        display: none;
+    } 
+}
+
+
+
+
+#estilo2 {
+    color: white;
+    background: #3BAC53;
+}
+
+#estilo3 {
+    background: #000000;
+    min-height: 50px;
+    margin-bottom: 0px;
+    font-size: 12px;
+    color: white;
+    position: relative;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+
+.opcionesSesionUsuario{
+    padding: 5px 15px;
+}
+
+.material-icons{
+    padding: 0px 5px;
+}
+

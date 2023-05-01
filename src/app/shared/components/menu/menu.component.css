@@ -1,0 +1,43 @@
+@media (min-width: 768px) { /*menu ocupa todo el alto de la pantalla si es msa grande de 768px*/
+    #accordionExample {
+        min-height: 100%;
+        /* min-height: 100vh; */
+        background-color: #52ac54;
+    }
+}
+
+.accordion div{  /* estilos dondo de card principal del menu */
+    background-color: #52ac54;
+    border-color: transparent;
+    border-radius: 0px;
+}
+
+.accordion div div h2 button{ /*estilos letra menu*/
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+}
+
+.accordion div div h2 button span{ /*estilos iconos menu*/
+    color: white;
+    margin-right: 5px;
+    font-size: 15px;
+}
+
+.accordion div div ul li{ /*estilos submenus*/
+    padding: 0px 40px;
+    background-color: #52ac54;
+}
+
+.accordion div div ul li a{ /*estilos letras submenus*/
+    border-color: transparent;
+    color: white;
+}
+
+#menu-collapse{  /*estilos menu en responsive*/
+    /* background-color: black;
+    border-radius: 0px; */
+    background-color: #52ac54;
+}
+

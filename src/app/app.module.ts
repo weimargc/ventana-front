@@ -22,32 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
-    NgbModule,
-    NgSelectModule,
-    RecaptchaFormsModule,
-    RecaptchaModule,
-    ToastrModule.forRoot({
-      timeOut: 15000, // 15 seconds
-      closeButton: true,
-      progressBar: true,
-    }),
-  ],
-  providers: [
-    SpinnerService,
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: environment.recaptcha.siteKey,
-      } as RecaptchaSettings,
-    },
-    {
-      provide:HTTP_INTERCEPTORS,
-      useClass: InterceptorService,
-      multi:true
-    }
   ],
   bootstrap: [AppComponent]
 })

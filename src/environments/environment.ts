@@ -7,3 +7,7 @@ export const environment = {
     siteKey: '6LcQjAEiAAAAAL9yBVeqzeLPOvuS_hKIz_WXeg0o',
   }
 };
+
+// ng generate module authentication --route auth --module app --module app.module
+// ng generate module administration --route admin --module app --module app.module
+// ng generate module reports --route reports --module app --module app.module

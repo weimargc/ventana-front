@@ -1,0 +1,70 @@
+<!-- <div class="d-none d-sm-none d-md-block">Este texto solo visible para escritorio</div>
+<div class="d-block d-sm-block d-md-none">Este texto solo visible para smartphone</div> -->
+
+<span class="d-block d-sm-block d-md-none">
+  <nav class="navbar navbar-expand-lg navbar-dark" id="menu-collapse" onchange="ResolucionPantalla()">
+    <a class="navbar-brand">Menú</a>
+    <button (click)="menuCollapse()" class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+</span>
+
+
+
+<div class="accordion" id="accordionExample" @enterState *ngIf="this.desplegado">
+  <!-- boton inicio-->
+  <div class="card">
+    <div id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse"
+          data-target="#collapseddddd" aria-expanded="false" aria-controls="collapseThree"
+          (click)="menuCollapseDesdeOpciones()">
+<!--
+          <div *ngIf="this.opcionesContraidas">
+            Inicio
+          </div> -->
+        </button>
+      </h2>
+    </div>
+  </div>
+
+  <!--botones dinamicos-->
+  <div class="card" *ngFor="let menu of opcionesMenu; let i = index">
+    <div id="heading-{{i}}">
+      <h2 class="mb-0">
+        <!-- <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse" aria-expanded="false" [attr.data-target]="'#collapse-' + i" [attr.aria-controls]="'collapse-' + i " [routerLink]="[menu.opciones.length == 0 ? menu.url:'/dashboard/home/']"  [routerLinkActive]="'active-menu'"> -->
+
+        <button class="btn btn-block text-left collapsed" type="button"
+          data-toggle="collapse" aria-expanded="false" [attr.data-target]="'#collapse-' + i"
+          [attr.aria-controls]="'collapse-' + i " (click)="enrutarComponente(menu.url, menu.opciones)"
+          [ngClass]="{ 'active-menu': menu.url === 'urlMenuActive'}">
+          <!-- {{menu.nombre}} -->
+          <div *ngIf="this.opcionesContraidas">
+            {{menu.nombre}}
+          </div>
+
+        </button>
+
+        <button *ngIf="false" class="btn btn-block text-left collapsed" type="button"
+        data-toggle="collapse" aria-expanded="false" [attr.data-target]="'#collapse-' + i"
+        [attr.aria-controls]="'collapse-' + i " (click)="enrutarComponente(menu.url, menu.opciones)"
+        [ngClass]="{ 'active-menu': menu.url === 'urlMenuActive'}">
+        <!-- {{menu.nombre}} -->
+        <div *ngIf="this.opcionesContraidas">
+          {{menu.nombre}}
+        </div>
+
+      </button>
+      </h2>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+

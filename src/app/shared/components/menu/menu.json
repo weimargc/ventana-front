@@ -1,0 +1,64 @@
+[
+  {
+    "nombre": "Graduados",
+    "descripcion": "ver graduados de base de datos.",
+    "rol": "ROLE_ADMIN",
+    "icono": "school",
+    "imagen": "graduados.png",
+    "url": "/dashboard/graduados/admin-graduados",
+    "opciones": [
+      {
+        "nombre": "Administrar",
+        "descripcion": "",
+        "rol": "ROLE_MENU_OPCION_GRADUADO_ADMIN",
+        "estado": true,
+        "url": "/dashboard/graduados/admin-graduados"
+      },
+      {
+        "nombre": "Carga candidatos",
+        "descripcion": "Carga de graduados cadidatos",
+        "rol": "ROLE_MENU_OPCION_GRADUADO_CARGA",
+        "estado": true,
+        "url": "/dashboard/graduados/carga-candidatos"
+      },
+      {
+        "nombre": "Carga graduados",
+        "descripcion": "",
+        "rol": "ROLE_MENU_OPCION_GRADUADO_CARGA",
+        "estado": true,
+        "url": "/dashboard/graduados/carga"
+      }
+    ]
+  },
+  {
+    "nombre": "Graduados",
+    "descripcion": "ver graduados de base de datos.",
+    "rol": "ROLE_ADMIN",
+    "icono": "school",
+    "imagen": "graduados.png",
+    "url": "/dashboard/graduados/admin-graduados",
+    "opciones": [
+      {
+        "nombre": "Administrar",
+        "descripcion": "",
+        "rol": "ROLE_MENU_OPCION_GRADUADO_ADMIN",
+        "estado": true,
+        "url": "/dashboard/graduados/admin-graduados"
+      },
+      {
+        "nombre": "Carga candidatos",
+        "descripcion": "Carga de graduados cadidatos",
+        "rol": "ROLE_MENU_OPCION_GRADUADO_CARGA",
+        "estado": true,
+        "url": "/dashboard/graduados/carga-candidatos"
+      },
+      {
+        "nombre": "Carga graduados",
+        "descripcion": "",
+        "rol": "ROLE_MENU_OPCION_GRADUADO_CARGA",
+        "estado": true,
+        "url": "/dashboard/graduados/carga"
+      }
+    ]
+  }
+]
